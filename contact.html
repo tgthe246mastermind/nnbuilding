@@ -1,0 +1,393 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script>```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - N&N Building & Finishing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #FFD700;
+            --forest-green: #228B22;
+            --light-green: #90EE90;
+            --dark-green: #1a5f1a;
+            --light-gold: #fff8dc;
+            --white: #ffffff;
+            --black: #000000;
+            --gray: #666666;
+            --light-gray: #f5f5f5;
+            --ultramarine-blue: #2e1fe3;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--black);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 90px;
+        }
+
+        .nav-logo img {
+            width: 100px;
+            height: 140px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--forest-green);
+        }
+
+        .nav-cta {
+            background: var(--forest-green);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: var(--black);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .nav-cta:hover {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--forest-green);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--ultramarine-blue);
+            margin-bottom: 25px;
+        }
+
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: var(--light-gray);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            color: var(--ultramarine-blue);
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .card a {
+            color: var(--forest-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .card a:hover {
+            color: var(--ultramarine-blue);
+        }
+
+        /* Map Embed */
+        .map-embed {
+            width: 100%;
+            height: 200px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3,
+        .footer-section h4 {
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .footer-section p,
+        .footer-section ul {
+            opacity: 0.8;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            text-align: center;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .contact-cards {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="nnbuildinglogo.png" alt="N&N Building Logo">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="careers.html">Careers</a></li>
+                <li><a href="contact.html" class="nav-cta">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="contact-section">
+            <h2>Contact Us</h2>
+            <p>Get in touch with N&N Building & Finishing to discuss your project needs or inquiries.</p>
+            <div class="contact-cards">
+                <!-- Location Card -->
+                <div class="card">
+                    <h3>Location</h3>
+                    <p>Content Cot, St. Philip, Barbados</p>
+                    <p>Approximate Coordinates: 13.1333° N, 59.4667° W</p>
+                    <iframe class="map-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3867.606123456789!2d-59.4667!3d13.1333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c43a8f9f9f9f9f9%3A0x9f9f9f9f9f9f9f9f!2sContent%20Cot%2C%20St.%20Philip%2C%20Barbados!5e0!3m2!1sen!2sus!4v1625489123456" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <!-- Contact Card -->
+                <div class="card">
+                    <h3>Contact Information</h3>
+                    <p>Phone: +1 (246) 821-4821</p>
+                    <p>Phone: +1 (246) 269-1425</p>
+                    <p>Phone: 784-530-9842</p>
+                    <p>Email: <a href="mailto:nnbuilding@yahoo.com">nnbuilding@yahoo.com</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>NNBuilding</h3>
+                    <p>Building tomorrow's world with excellence, innovation, and sustainability.</p>
+                    <div class="social-links">
+                        <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3867.606123456789!2d-59.4667!3d13.1333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c43a8f9f9f9f9f9%3A0x9f9f9f9f9f9f9f9f!2sContent%20Cot%2C%20St.%20Philip%2C%20Barbados!5e0!3m2!1sen!2sus!4v1625489123456" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services.html">Commercial Construction</a></li>
+                        <li><a href="services.html">Residential Construction</a></li>
+                        <li><a href="services.html">Renovation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Content Cot, St. Philip, Barbados<br>
+                    +1 (246) 821-4821<br>
+                    +1 (246) 269-1425<br>
+                    784-530-9842<br>
+                    <a href="mailto:nnbuilding@yahoo.com">nnbuilding@yahoo.com</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 NNBuilding. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Toggle hamburger menu
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
+```

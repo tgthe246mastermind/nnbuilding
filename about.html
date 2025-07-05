@@ -1,0 +1,386 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script>```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - N&N Building & Finishing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #FFD700;
+            --forest-green: #228B22;
+            --light-green: #90EE90;
+            --dark-green: #1a5f1a;
+            --light-gold: #fff8dc;
+            --white: #ffffff;
+            --black: #000000;
+            --gray: #666666;
+            --light-gray: #f5f5f5;
+            --ultramarine-blue: #2e1fe3;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--black);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+.navbar {
+    background: var(--white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+}
+
+.nav-logo h2 {
+    color: var(--forest-green);
+    font-weight: 700;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--black);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-menu a:hover {
+    color: var(--forest-green );
+}
+
+.nav-cta {
+    background: var(--forest-green );
+    padding: 10px 20px !important;
+    border-radius: 25px;
+    color: var(--black) !important;
+    font-weight: 600;
+}
+
+.nav-cta:hover {
+    background: var(--gold) !important;
+    color: var(--white) !important;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: var(--forest-green);
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 100px 0;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--ultramarine-blue);
+            margin-bottom: 25px;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--ultramarine-blue);
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .team-section, .collaborations-section, .approach-section {
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--light-gray);
+            border-radius: 10px;
+        }
+
+        .team-section h2, .collaborations-section h2, .approach-section h2 {
+            color: var(--ultramarine-blue);
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+.footer {
+    background: var(--black);
+    color: var(--white);
+    padding: 60px 0 20px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    color: var(--gold);
+    margin-bottom: 20px;
+}
+
+.footer-section p,
+.footer-section ul {
+    opacity: 0.8;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--gold);
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.footer-bottom {
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    text-align: center;
+    opacity: 0.6;
+}
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="nnbuildinglogo.png" alt="SiteD162f6 Logo" style="width: 100px; height: 140px;">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="careers.html">Careers</a></li>
+                <li><a href="contact.html" class="nav-cta">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>About Us</h2>
+                <p>N & N Building & Finishing was founded in 2010 as a sole-proprietorship and has grown over the years to work in small and large-scale construction.</p>
+                <p>The principal, Neil Hittall, has amassed extensive and varied experience in several different applications, and is the holder of a diploma issued by Walbrent College in 'Building Durable Homes and Structures'.</p>
+                <div class="team-section">
+                    <h2>Our Team</h2>
+                    <p>Neil Hittall (Managing Director): Neil achieved his Certification from Walbrent College & is responsible for all interior & exterior finishing. He is also responsible for joinery work, interior structures, plumbing & cosmetic work. (Team: 5)</p>
+                    <p>We have a team of highly skilled and professional full-time employees comprising of painters/slickers, electricians, carpenters, masons and tilers. Additionally, we have part-time staff that can be called on during large projects.</p>
+                </div>
+                <div class="collaborations-section">
+                    <h2>Collaborations</h2>
+                    <p>N&N has worked with several reputable companies in the construction business, particularly with those from Mechanical & Electrical disciplines such as:</p>
+                    <ul>
+                        <li>Next Generation Electrical (NGE)</li>
+                        <li>R-TEK Refrigeration & Air Conditioning Services</li>
+                        <li>TMR Sales & Service Ltd.</li>
+                    </ul>
+                </div>
+                <div class="approach-section">
+                    <h2>Our Approach</h2>
+                    <p>We consider building and maintenance to be truly a collaborative process. That is why we ensure we build a relationship with our clients to make sure their investment is completed satisfactorily. We tailor our capabilities to meet the client’s specific needs and as a full-service contractor company, there is nothing we can’t build when we work together.</p>
+                </div>
+                <p>We have cooperated with a number of designers, architects, and engineers to ensure our clients are satisfied.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Construction team">
+            </div>
+        </div>
+    </div>
+
+ <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>NNBuilding  </h3>
+                    <p>Building tomorrow's world with excellence, innovation, and sustainability.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/nnbuildingbds/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a>
+                        
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Commercial Construction</a></li>
+                        <li><a href="#">Residential Construction</a></li>
+                        <li><a href="#">Renovation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Content Cot, St. Philip, Barbados<br>
+                    +1 (246) 821-4821<br>
+                    +1 (246) 269-1425<br>
+                    784-530-9842<br>
+                    nnbuilding@yahoo.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NNBuilding. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Toggle hamburger menu (if needed for future navigation integration)
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

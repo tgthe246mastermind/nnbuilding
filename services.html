@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N&N Building & Finishing - Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #FFD700;
+            --forest-green: #228B22;
+            --light-green: #90EE90;
+            --dark-green: #1a5f1a;
+            --light-gold: #fff8dc;
+            --white: #ffffff;
+            --black: #000000;
+            --gray: #666666;
+            --light-gray: #f5f5f5;
+            --ultramarine-blue: #2e1fe3; 
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--black);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+       /* Navigation */
+.navbar {
+    background: var(--white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+}
+
+.nav-logo h2 {
+    color: var(--forest-green);
+    font-weight: 700;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--black);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-menu a:hover {
+    color: var(--forest-green );
+}
+
+.nav-cta {
+    background: var(--forest-green );
+    padding: 10px 20px !important;
+    border-radius: 25px;
+    color: var(--black) !important;
+    font-weight: 600;
+}
+
+.nav-cta:hover {
+    background: var(--gold) !important;
+    color: var(--white) !important;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: var(--forest-green);
+    margin: 3px 0;
+    transition: 0.3s;
+}
+        /* Services Section */
+        .services {
+            padding: 100px 0;
+            margin-top: 90px; /* Offset for fixed navbar */
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--ultramarine-blue);
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-content img {
+            width: 75px;
+            height: 75px;
+            margin-bottom: 15px;
+        }
+
+        .service-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--ultramarine-blue);
+            margin-bottom: 15px;
+        }
+
+        .service-content p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .service-link {
+            color: var(--ultramarine-blue);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .service-link:hover {
+            color: var(--forest-green);
+        }
+
+       /* Footer */
+.footer {
+    background: var(--black);
+    color: var(--white);
+    padding: 60px 0 20px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    color: var(--gold);
+    margin-bottom: 20px;
+}
+
+.footer-section p,
+.footer-section ul {
+    opacity: 0.8;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--gold);
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.footer-bottom {
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    text-align: center;
+    opacity: 0.6;
+}
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-menu {
+                display: none;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Ripple Effect */
+        .btn-primary, .btn-secondary {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+            width: 100px;
+            height: 100px;
+            margin-left: -50px;
+            margin-top: -50px;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+     <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="nnbuildinglogo.png" alt="SiteD162f6 Logo" style="width: 100px; height: 140px;">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="services.html">Services</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="careers.html">Careers</a></li>
+                <li><a href="contact.html" class="nav-cta">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Comprehensive construction solutions for every project type</p>
+            </div>
+            <div class="services-grid" id="servicesGrid">
+                <!-- Services will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+     <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>NNBuilding  </h3>
+                    <p>Building tomorrow's world with excellence, innovation, and sustainability.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/nnbuildingbds/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a>
+                        
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Commercial Construction</a></li>
+                        <li><a href="#">Residential Construction</a></li>
+                        <li><a href="#">Renovation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Content Cot, St. Philip, Barbados<br>
+                    +1 (246) 821-4821<br>
+                    +1 (246) 269-1425<br>
+                    784-530-9842<br>
+                    nnbuilding@yahoo.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NNBuilding. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.backdropFilter = 'blur(10px)';
+            } else {
+                navbar.style.background = '#ffffff';
+                navbar.style.backdropFilter = 'none';
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Service cards data and population with logos
+        const services = [
+            { name: "Eaves", desc: "Changing of fascia boards and damaged rafter ends", img: "eaves.png" },
+            { name: "Construction", desc: "Residential and Commercial from the foundation to roof", img: "construction.png" },
+            { name: "Electrical Installations", desc: "Replacement of incandescent to LED. Balancing of circuits and managing overloading panels. Revamp of old wiring to new systems to compliance.", img: "electrician.png" },
+            { name: "Painting", desc: "Preventative maintenance and fresh work application.", img: "painting.png" },
+            { name: "Ceilings", desc: "Designing & fabrication of decorative ceilings, drywall, pine and other materials.", img: "ceilings.png" },
+            { name: "Renovations", desc: "Wood and wall structures, demolition of office build-outs and makeovers.", img: "renovations.png" },
+            { name: "Countertops", desc: "Installation of granite, acrylic, laminate and mariposa countertops", img: "countertops.png" },
+            { name: "Roof Repair", desc: "Torch-on, felt, changing of perm-a-clad and other roofing materials.", img: "roof_repair.png" },
+            { name: "Walls", desc: "Major crack repairs, texture changes and other services.", img: "wall.png" },
+            { name: "Bathrooms", desc: "Designing, gutting and restoration.", img: "bathroom.png" },
+            { name: "Flooring", desc: "PVC and Epoxy finishes, tiling and revamping.", img: "flooring.png" },
+            { name: "Masonry", desc: "Decorative concrete, polished concrete pavements & foundations, blockwork etc.", img: "masonry.png" },
+            { name: "Air-Conditioning", desc: "Converting regular to inverter package systems. Cassette units & split systems preventative maintenance and repairs.", img: "air-conditioning.png" }
+        ];
+
+        const servicesGrid = document.getElementById('servicesGrid');
+        services.forEach(service => {
+            const card = document.createElement('div');
+            card.className = 'service-card';
+            card.innerHTML = `
+                <div class="service-content">
+                    <img src="${service.img}" alt="${service.name} Logo">
+                    <h3>${service.name}</h3>
+                    <p>${service.desc}</p>
+                 
+                </div>
+            `;
+            servicesGrid.appendChild(card);
+        });
+
+        // Service cards animation on scroll
+        const serviceObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            serviceObserver.observe(card);
+        });
+
+        // Button click effects
+        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
+            button.addEventListener('click', function(e) {
+                let ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                
+                let x = e.clientX - e.target.offsetLeft;
+                let y = e.clientY - e.target.offsetTop;
+                
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+    </script>
+</body>
+</html>
