@@ -44,6 +44,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - N&N Building & Finishing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;600;700&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
     <style>
         * {
             margin: 0;
@@ -124,7 +127,7 @@
             padding: 10px 20px;
             border-radius: 25px;
             color: var(--black);
-            font-weight: 600;
+            font-weight: 100;
             text-decoration: none;
         }
 
@@ -132,7 +135,6 @@
             background: var(--gold);
             color: var(--white);
         }
-
         .hamburger {
             display: none;
             flex-direction: column;
@@ -146,6 +148,7 @@
             margin: 3px 0;
             transition: 0.3s;
         }
+
 
         /* Contact Section */
         .contact-section {
@@ -259,24 +262,97 @@
             opacity: 0.6;
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
             .hamburger {
                 display: flex;
             }
-            .contact-cards {
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .services-grid,
+            .projects-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+            
             .footer-content {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .active-projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 90px;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-menu li {
+                margin: 10px 0;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
             }
         }
 
         @media (max-width: 480px) {
+            .stats-grid,
             .footer-content {
                 grid-template-columns: 1fr;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
             }
         }
     </style>
@@ -286,14 +362,16 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="nnbuildinglogo.png" alt="N&N Building Logo">
+                
+                <a href="index.html"><img src="nnbuildinglogo.png" alt="SiteD162f6 Logo" style="width: 100px; height: 140px;"> </a>
             </div>
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="services.html">Services</a></li>
+                <li><a href="projects.html">Projects</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="careers.html">Careers</a></li>
-                <li><a href="contact.html" class="nav-cta">Contact</a></li>
+                
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -312,7 +390,7 @@
                 <div class="card">
                     <h3>Location</h3>
                     <p>Content Cot, St. Philip, Barbados</p>
-                    <p>Approximate Coordinates: 13.1333° N, 59.4667° W</p>
+                    <p>Headquarters</p>
                     <iframe class="map-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3867.606123456789!2d-59.4667!3d13.1333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c43a8f9f9f9f9f9%3A0x9f9f9f9f9f9f9f9f!2sContent%20Cot%2C%20St.%20Philip%2C%20Barbados!5e0!3m2!1sen!2sus!4v1625489123456" allowfullscreen="" loading="lazy"></iframe>
                 </div>
                 <!-- Contact Card -->
@@ -334,8 +412,10 @@
                     <h3>NNBuilding</h3>
                     <p>Building tomorrow's world with excellence, innovation, and sustainability.</p>
                     <div class="social-links">
-                        <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3867.606123456789!2d-59.4667!3d13.1333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c43a8f9f9f9f9f9%3A0x9f9f9f9f9f9f9f9f!2sContent%20Cot%2C%20St.%20Philip%2C%20Barbados!5e0!3m2!1sen!2sus!4v1625489123456" target="_blank" rel="noopener noreferrer">Instagram</a>
-                    </div>
+    <a href="https://www.instagram.com/nnbuildingbds/?hl=en" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-instagram" style="color: #ffffff; font-size: 30px;"></i>
+    </a>
+</div>
                 </div>
                 <div class="footer-section">
                     <h4>Services</h4>
@@ -377,15 +457,32 @@
             });
         });
 
-        // Toggle hamburger menu
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-        if (hamburger && navMenu) {
+       
+         document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
             hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
                 navMenu.classList.toggle('active');
             });
-        }
+
+            // Close menu when a nav link is clicked
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
-```
